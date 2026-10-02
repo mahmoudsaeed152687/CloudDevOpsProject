@@ -15,3 +15,16 @@ module "server" {
   subnet_id     = module.network.public_subnet_ids[0]
   instance_type = "t3.micro"
 }
+
+module "ecr" {
+  source = "./modules/ecr"
+
+  project_name = var.project_name
+}
+
+module "eks" {
+  source = "./modules/eks"
+
+  project_name       = var.project_name
+  private_subnet_ids = module.network.private_subnet_ids
+}
