@@ -1,0 +1,69 @@
+- name: Configure Jenkins Server
+  hosts: jenkins
+  become: true
+
+  tasks:
+
+    - name: Install required packages
+      ansible.builtin.dnf:
+        name:
+          - java-21-amazon-corretto
+          - fontconfig
+        state: present
+
+    - name: Install Docker
+      ansible.builtin.dnf:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add Jenkins repository
+      ansible.builtin.get_url:
+        url: https://pkg.jenkins.io/rpm-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+        mode: '0644'
+
+    - name: Import Jenkins repository key
+      ansible.builtin.rpm_key:
+        state: present
+        key: https://pkg.jenkins.io/rpm-stable/jenkins.io-2026.key
+
+    - name: Install Jenkins
+      ansible.builtin.dnf:
+        name: jenkins
+        state: present
+
+    - name: Add Jenkins user to Docker group
+      ansible.builtin.user:
+        name: jenkins
+        groups: docker
+        append: true
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Start and enable Jenkins
+      ansible.builtin.systemd:
+        name: jenkins
+        state: started
+        enabled: true
+
+    - name: Add Trivy repository
+      ansible.builtin.yum_repository:
+        name: trivy
+        description: Trivy repository
+        baseurl: https://aquasecurity.github.io/trivy-repo/rpm/releases/$basearch/
+        enabled: true
+        gpgcheck: true
+        gpgkey: https://aquasecurity.github.io/trivy-repo/rpm/public.key
+
+    - name: Install Trivy
+      ansible.builtin.dnf:
+        name: trivy
+        state: present

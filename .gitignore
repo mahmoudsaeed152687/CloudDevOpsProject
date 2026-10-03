@@ -6,3 +6,8 @@
 *.tfstate.*
 terraform.tfstate
 terraform.tfstate.*
+# Ansible
+ansible/inventory
+
+# SSH private keys
+*.pem
