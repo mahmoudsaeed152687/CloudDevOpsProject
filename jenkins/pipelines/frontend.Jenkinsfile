@@ -32,7 +32,7 @@ pipeline {
 
         stage('Delete Local Image') {
             steps {
-                dockerCleanup("${IMAGE_NAME}", "${IMAGE_TAG}")
+                dockerCleanup("${IMAGE_NAME}", "${IMAGE_TAG}", "${ECR_REPO}")
             }
         }
 
