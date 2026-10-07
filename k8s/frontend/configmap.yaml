@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: ivolve
+data:
+  AUTH_SERVICE_URL: http://auth-service:5000
+  ROADMAP_SERVICE_URL: http://roadmap-service:8080

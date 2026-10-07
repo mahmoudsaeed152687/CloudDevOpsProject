@@ -7,6 +7,7 @@ module "network" {
   availability_zone_2 = var.availability_zone_2
 }
 
+
 module "server" {
   source = "./modules/server"
 
@@ -17,18 +18,31 @@ module "server" {
   key_name      = "ivolve-devops-key"
 }
 
+
 module "ecr" {
   source = "./modules/ecr"
 
   project_name = var.project_name
 }
 
+
 module "eks" {
   source = "./modules/eks"
 
   project_name       = var.project_name
   private_subnet_ids = module.network.private_subnet_ids
+
+  # IMPORTANT
+  # We need enough pod capacity for:
+  # - EBS CSI Controller
+  # - CoreDNS
+  # - kube-proxy
+  # - VPC CNI
+  # - Pod Identity Agent
+  # - Application workloads
+  node_instance_type = "m7i-flex.large"
 }
+
 
 module "ansible" {
   source = "./modules/ansible"
