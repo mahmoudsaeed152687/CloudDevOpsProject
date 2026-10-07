@@ -57,6 +57,41 @@ resource "aws_iam_role" "jenkins" {
   }
 }
 
+resource "aws_iam_role_policy" "jenkins_ecr" {
+  name = "${var.project_name}-jenkins-ecr-policy"
+  role = aws_iam_role.jenkins.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+
+    Statement = [
+      {
+        Effect = "Allow"
+
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ]
+
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+
+        Action = [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:CompleteLayerUpload",
+          "ecr:InitiateLayerUpload",
+          "ecr:PutImage",
+          "ecr:UploadLayerPart",
+          "ecr:BatchGetImage"
+        ]
+
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 #Instance Profile 
 resource "aws_iam_instance_profile" "jenkins" {
   name = "${var.project_name}-jenkins-profile"
