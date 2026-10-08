@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: roadmap-service
-          image: 509989879328.dkr.ecr.us-east-1.amazonaws.com/ivolve-roadmap-service:latest
+          image: 509989879328.dkr.ecr.us-east-1.amazonaws.com/ivolve-roadmap-service:1
           ports:
             - containerPort: 8080
