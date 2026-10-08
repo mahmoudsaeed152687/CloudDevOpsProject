@@ -1,4 +1,4 @@
-#SG
+#SG 
 resource "aws_security_group" "jenkins" {
   name        = "${var.project_name}-jenkins-sg"
   description = "Security group for Jenkins server"
@@ -32,7 +32,7 @@ resource "aws_security_group" "jenkins" {
   }
 }
 
-#IAM Role
+#IAM Role 
 resource "aws_iam_role" "jenkins" {
   name = "${var.project_name}-jenkins-role"
 
@@ -92,7 +92,7 @@ resource "aws_iam_role_policy" "jenkins_ecr" {
   })
 }
 
-#Instance Profile 
+#Instance Profile  
 resource "aws_iam_instance_profile" "jenkins" {
   name = "${var.project_name}-jenkins-profile"
   role = aws_iam_role.jenkins.name
@@ -133,5 +133,11 @@ resource "aws_instance" "jenkins" {
 
   tags = {
     Name = "${var.project_name}-jenkins"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      associate_public_ip_address,
+    ]
   }
 }

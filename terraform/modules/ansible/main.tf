@@ -1,45 +1,71 @@
 data "aws_ami" "amazon_linux" {
+
   most_recent = true
 
   owners = ["amazon"]
 
   filter {
-    name   = "name"
+
+    name = "name"
+
     values = ["al2023-ami-2023.*-x86_64"]
+
   }
 
   filter {
-    name   = "virtualization-type"
+
+    name = "virtualization-type"
+
     values = ["hvm"]
+
   }
+
 }
 
 resource "aws_security_group" "ansible" {
-  name        = "${var.project_name}-ansible-sg"
+
+  name = "${var.project_name}-ansible-sg"
+
   description = "Security group for Ansible Controller"
-  vpc_id      = var.vpc_id
+
+  vpc_id = var.vpc_id
 
   ingress {
+
     description = "SSH from my workstation"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+
+    from_port = 22
+
+    to_port = 22
+
+    protocol = "tcp"
+
     cidr_blocks = ["0.0.0.0/0"]
+
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+
+    from_port = 0
+
+    to_port = 0
+
+    protocol = "-1"
+
     cidr_blocks = ["0.0.0.0/0"]
+
   }
 
   tags = {
+
     Name = "${var.project_name}-ansible-sg"
+
   }
+
 }
 
 resource "aws_instance" "ansible" {
+
   ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
   subnet_id     = var.subnet_id
@@ -51,6 +77,14 @@ resource "aws_instance" "ansible" {
   key_name = var.key_name
 
   tags = {
+
     Name = "${var.project_name}-ansible-controller"
+
+  }
+
+  lifecycle {
+    ignore_changes = [
+      associate_public_ip_address,
+    ]
   }
 }
