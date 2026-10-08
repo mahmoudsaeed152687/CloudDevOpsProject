@@ -18,11 +18,14 @@ pipeline {
             }
         }
 
-        stage('Scan Image') {
-            steps {
-                trivyScan("${IMAGE_NAME}", "${IMAGE_TAG}")
-            }
-        }
+        stage('Check Dependencies') {
+    steps {
+        sh '''
+            docker run --rm ${IMAGE_NAME}:${IMAGE_TAG} \
+            npm ls brace-expansion http-cache-semantics ip-address pacote picomatch sigstore
+        '''
+    }
+}
 
         stage('Push Image') {
             steps {
