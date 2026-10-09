@@ -1,4 +1,5 @@
 # CloudDevOpsProject
+<img width="1376" height="768" alt="Cloud_DevOps_Project" src="https://github.com/user-attachments/assets/403f6519-a7bb-4e83-b7a3-966515b89cbf" />
 
 ## End-to-End DevOps CI/CD Project
 
