@@ -1,5 +1,10 @@
 # CloudDevOpsProject
-<img width="1376" height="768" alt="Cloud_DevOps_Project" src="https://github.com/user-attachments/assets/403f6519-a7bb-4e83-b7a3-966515b89cbf" />
+<img width="1536" height="1024" alt="CloudDevOpsProject_Architecture" src="https://github.com/user-attachments/assets/c975d293-6fbf-4c06-a933-1af83cf4e42b" />
+
+
+https://github.com/user-attachments/assets/88a0d918-4123-450d-b953-15a3da21077f
+
+
 
 ## End-to-End DevOps CI/CD Project
 
